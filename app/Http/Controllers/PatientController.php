@@ -15,8 +15,10 @@ class PatientController extends Controller
     public function index()
     {
         //
-        $patients = Patient::paginate(10);
-        // $doctors = DB::table('doctors')->where('id', $patient->idBacSi)->first();
+        //$patients = Patient::paginate(10);
+        $patients = Patient::join('doctors', 'doctors.id', '=', 'patients.idBacSi')
+        ->select('patients.*','doctors.tenBacSi as doctor_name')
+        ->paginate(10);
         return view('patients.index', compact('patients'))->with('i', (request()->input('page', 1) -1) *5);
     }
 
